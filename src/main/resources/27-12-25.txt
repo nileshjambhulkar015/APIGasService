@@ -1,0 +1,192 @@
+--create database gasinfo;
+
+    /*
+      drop table roles;
+    drop table cylinder_type_master  ;
+    drop table gas_company_master  ;
+        drop table gas_cylinder_master  ;
+        drop table gas_cylinder_details  ;
+            drop table society_master  ;
+            drop table wing_master  ;
+    drop table customer_master  ;
+    drop table customer_cylinder_bill_master  ;
+drop table customer_cylinder_bill_master  ;
+*/
+
+create table roles(
+	role_id serial primary key,
+	role_name VARCHAR(30),
+	remark VARCHAR(100),
+	status_cd VARCHAR(10),
+	crte_user_id VARCHAR(20) ,
+	crte_ts TIMESTAMP not null default CURRENT_TIMESTAMP,
+	lst_updt_ts TIMESTAMP null,
+	lst_updt_user_id VARCHAR(20) null
+);
+
+create table cylinder_type_master(
+	cyl_type_id serial primary key,
+	cyl_type_name VARCHAR(20),
+	cyl_price VARCHAR(20),
+	remark VARCHAR(100),
+	status_cd VARCHAR(10),
+	crte_user_id VARCHAR(20) ,
+	crte_ts TIMESTAMP not null default CURRENT_TIMESTAMP,
+	lst_updt_ts TIMESTAMP null,
+	lst_updt_user_id VARCHAR(20) null
+);
+
+create table gas_company_master(
+	gas_comp_id serial primary key,
+	gas_comp_name VARCHAR(100),
+	remark VARCHAR(100),
+	status_cd VARCHAR(10),
+	crte_user_id VARCHAR(20) ,
+	crte_ts TIMESTAMP not null default CURRENT_TIMESTAMP,
+	lst_updt_ts TIMESTAMP null,
+	lst_updt_user_id VARCHAR(20) null
+);
+
+create table gas_cylinder_master(
+	cyl_id serial primary key,
+	cyl_type_id INTEGER,
+	gas_comp_id Integer,
+	cyl_name VARCHAR(20), --e.g Red, Blue
+	remark VARCHAR(100),
+	status_cd VARCHAR(10),
+	crte_user_id VARCHAR(20) ,
+	crte_ts TIMESTAMP not null default CURRENT_TIMESTAMP,
+	lst_updt_ts TIMESTAMP null,
+	lst_updt_user_id VARCHAR(20) null
+);
+
+create table gas_cylinder_details(
+	gas_details_id serial primary key,
+	gas_entry_date TIMESTAMP not null default CURRENT_TIMESTAMP,
+	cyl_id INTEGER,
+	cyl_type_id INTEGER,
+	gas_comp_id Integer,
+	gas_name VARCHAR(20),
+	remark VARCHAR(100),
+	status_cd VARCHAR(10),
+	crte_user_id VARCHAR(20) ,
+	crte_ts TIMESTAMP not null default CURRENT_TIMESTAMP,
+	lst_updt_ts TIMESTAMP null,
+	lst_updt_user_id VARCHAR(20) null
+);
+
+create table society_master(
+	soc_id serial primary key,
+	soc_name VARCHAR(100),
+	remark VARCHAR(100),
+	status_cd VARCHAR(10),
+	crte_user_id VARCHAR(20) ,
+	crte_ts TIMESTAMP not null default CURRENT_TIMESTAMP,
+	lst_updt_ts TIMESTAMP null,
+	lst_updt_user_id VARCHAR(20) null
+);
+
+create table wing_master(
+	wing_id serial primary key,
+	soc_id INTEGER,
+	wing_name VARCHAR(100),
+	remark VARCHAR(100),
+	status_cd VARCHAR(10),
+	crte_user_id VARCHAR(20) ,
+	crte_ts TIMESTAMP not null default CURRENT_TIMESTAMP,
+	lst_updt_ts TIMESTAMP null,
+	lst_updt_user_id VARCHAR(20) null
+);
+
+create table customer_master(
+	cust_id serial primary key,
+	cust_no VARCHAR(10),
+	cust_fname VARCHAR(100),
+	cust_mname VARCHAR(100),
+	cust_lname VARCHAR(100),
+	soc_id INTEGER,
+	wing_id INTEGER,
+	cust_address VARCHAR(300),
+	cust_mail_id VARCHAR(100),
+	cust_mb_no VARCHAR(20),
+	cust_whatsapp_no VARCHAR(20),
+	cust_gst_no VARCHAR(80),
+	remark VARCHAR(100),
+	status_cd VARCHAR(10),
+	crte_user_id VARCHAR(20) ,
+	crte_ts TIMESTAMP not null default CURRENT_TIMESTAMP,
+	lst_updt_ts TIMESTAMP null,
+	lst_updt_user_id VARCHAR(20) null
+);
+
+create table customer_cylinder_bill_master(
+	cust_cyl_bill_id serial primary key,
+	cust_id INTEGER,
+	cyl_id INTEGER,
+	cyl_type_id INTEGER,
+	cust_cyl_order_date TIMESTAMP,
+	cust_cyl_delivery_date TIMESTAMP,
+	cust_cyl_delivery_status VARCHAR(30),
+	cust_cyl_qty VARCHAR(10),
+	cust_cyl_price VARCHAR(10),
+	cyl_disc_per VARCHAR(10),
+	cyl_dis_rs VARCHAR(10),
+	bill_total VARCHAR(10),
+	cgst_per VARCHAR(10),
+	cgst_rs VARCHAR(10),
+	sgst_per VARCHAR(10),
+	sgst_rs VARCHAR(10),
+	bill_grand_total VARCHAR(10),
+	bill_grand_total_words VARCHAR(400),
+	bill_status VARCHAR(10),
+	remark VARCHAR(100),
+	status_cd VARCHAR(10),
+	crte_user_id VARCHAR(20) ,
+	crte_ts TIMESTAMP not null default CURRENT_TIMESTAMP,
+	lst_updt_ts TIMESTAMP null,
+	lst_updt_user_id VARCHAR(20) null
+);
+
+
+
+
+    /*
+               insert into roles(ROLE_ID,ROLE_NAME,remark,STATUS_CD,crte_user_id) values(1,'General Manager','Added GM role','A','admin');
+               insert into roles(ROLE_ID,ROLE_NAME,remark,STATUS_CD,crte_user_id) values(2,'Head Of Department','Added HOD role','A','admin');
+               insert into roles(ROLE_ID,ROLE_NAME,remark,STATUS_CD,crte_user_id) values(3,'Employee','Added employee role','A','admin');
+
+
+
+       insert into roles_audit(ROLE_ID,ROLE_NAME,remark,STATUS_CD,crte_user_id) values(1,'General Manager','Added GM role','A','admin');
+       insert into roles_audit(ROLE_ID,ROLE_NAME,remark,STATUS_CD,crte_user_id) values(2,'Head Of Department','Added HOD role','A','admin');
+               insert into roles_audit (ROLE_ID,ROLE_NAME,remark,STATUS_CD,crte_user_id) values(3,'Employee','Added employee role','A','admin');
+
+
+
+
+               insert into department(DEPT_NAME,STATUS_CD,crte_user_id) values('General Manager','A','admin');
+               insert into department_audit (DEPT_NAME,STATUS_CD,crte_user_id) values('General Manager','A','admin');
+
+
+               insert into designation(dept_id ,DESIG_NAME,STATUS_CD,crte_user_id) values(1,'General Manager','A','admin');
+               insert into designation_audit(dept_id ,DESIG_NAME,STATUS_CD,crte_user_id) values(1,'General Manager','A','admin');
+
+
+
+               insert into employee(emp_id,emp_eid,role_id,dept_id,desig_id ,reporting_emp_id,region_id,site_id,emp_fname,emp_mname,emp_lname,emp_gender,emp_mbno,emp_email_id, STATUS_CD,crte_user_id)
+               values(1,'GM0001',1,1,1,1,1,1,'Nilesh', 'Sambhaji','Jambhulkar','Male','9503232728','nilesh@gmail.com','A','admin');
+
+               insert into employee_audit(emp_id,emp_eid,role_id,dept_id,desig_id ,reporting_emp_id,region_id,site_id,emp_fname,emp_mname,emp_lname,emp_gender,emp_mbno,emp_email_id, STATUS_CD,crte_user_id)
+               values(1,'GM0001',1,1,1,1,1,1,'Nilesh', 'Sambhaji','Jambhulkar','Male','9503232728','nilesh@gmail.com','A','admin');
+
+
+               insert into employee_login(emp_eid,role_id,dept_id,desig_id,emp_mbno,emp_email_id, emp_password ,STATUS_CD,crte_user_id) values('GM0001',1,1,1,'GM0001','GM0001','GM0001','A','admin');
+               insert into employee_login_audit (emp_eid,role_id,dept_id,desig_id,emp_mbno,emp_email_id, emp_password,STATUS_CD,crte_user_id) values('GM0001',1,1,1,'GM0001','GM0001','GM0001','A','admin');
+
+        insert into key_perf_parameter(role_id,dept_id,desig_id,kpp_objective,kpp_performance_indi,STATUS_CD,crte_user_id) values(1,1,1,'Kpp Not requires','Kpp Not requires','A','admin');
+               insert into key_perf_parameter_audit(kpp_id,role_id,dept_id,desig_id,kpp_objective,kpp_performance_indi,STATUS_CD,crte_user_id) values(1,1,1,1,'Kpp Not requires','Kpp Not requires','A','admin');
+
+         insert into employee_kpp_master (emp_id ,role_id,dept_id,desig_id,STATUS_CD,crte_user_id) values(1,1,1,1,'A','admin');
+       insert into employee_kpp_master_audit (emp_id ,role_id,dept_id,desig_id,STATUS_CD,crte_user_id) values(1,1,1,1,'A','admin');
+
+    */
